@@ -152,63 +152,128 @@ public class Game {
         String result = "None";
 
         //Student code goes here ...
+        boolean xHorizontalWin=false, xVerticalWin=false, xSlantWin=false,
+                oHorizontalWin=false, oVerticalWin=false, oSlantWin=false;
 
-        int xVerticalCount=0, xHorizontalCount=0,
-                xBackSlashCount=0, xSlashCount=0,
-                oVerticalCount=0,oHorizontalCount=0,
-                oBackSlashCount=0, oSlashCount=0;
 
         for(int i=0;i<grid.length;i++) {
+            for(int j=0;j<grid.length;j++) {
+                if (j == 0) {
+                    if (grid[i][j] == 'x' && grid[i][j + 1] == 'x' && grid[i][j + 2] == 'x') xVerticalWin = true;
+                    if (grid[i][j] == 'o' && grid[i][j + 1] == 'o' && grid[i][j + 2] == 'o') oVerticalWin = true;
 
-            for(int j=0;j<grid[0].length;j++) {
+                    if (grid[j][i] == 'x' && grid[j+1][i] == 'x' && grid[j+2][i] == 'x') xHorizontalWin = true;
+                    if (grid[j][i] == 'o' && grid[j+1][i] == 'o' && grid[j+2][i] == 'o') oHorizontalWin = true;
 
-                if(grid[i][j]=='x') xVerticalCount++;
-                if(grid[j][i]=='x') xHorizontalCount++;
-                if(grid[i][j]=='o') oVerticalCount++;
-                if(grid[j][i]=='o') oHorizontalCount++;
-
-                if(grid[i][j]=='x'&&i==j) xBackSlashCount++;
-                if(grid[i][j]=='o'&&i==j) oBackSlashCount++;
-
-                //pomocnicze do podejrzenia działania pętli w konsoli
-                System.out.println("i="+i+", j="+j+", val[i][j]="+grid[i][j]+", val[j][i]="+grid[j][i]+
-                        ", xVerticalCount="+xVerticalCount+", xHorizontalCount="+xHorizontalCount+
-                        ", xBackSlashCount="+xVerticalCount+
-                        ", oVerticalCount="+oVerticalCount+", oHorizontalCount="+oHorizontalCount+
-                        ", oBackSlashCount="+oVerticalCount);
+                    if(i==0) {
+                        if(grid[i][j]=='x'&&grid[i+1][j+1]=='x'&&grid[i+2][j+2]=='x') xSlantWin=true;
+                        if(grid[i][j]=='o'&&grid[i+1][j+1]=='o'&&grid[i+2][j+2]=='o') oSlantWin=true;
+                    }
+                    if(i==2) {
+                        if(grid[i][j]=='x'&&grid[i-1][j+1]=='x'&&grid[i-2][j+2]=='x') xSlantWin=true;
+                        if(grid[i][j]=='o'&&grid[i-1][j+1]=='o'&&grid[i-2][j+2]=='o') oSlantWin=true;
+                    }
+                }
 
             }
-
-            if(grid[grid.length-1-i][i]=='x') xSlashCount++;
-            if(grid[grid.length-1-i][i]=='o') oSlashCount++;
-
-            if(xVerticalCount==grid.length||xHorizontalCount==grid.length||
-                    xBackSlashCount==grid.length||xSlashCount==grid.length) {
-                result="X wins";
-                break;
-            }
-
-            if(oVerticalCount==grid.length||oHorizontalCount==grid.length||
-                    oBackSlashCount==grid.length||oSlashCount==grid.length) {
-                result="O wins";
-                break;
-            }
-
-            if(freeSpots==0&&result=="None") {
-                result="Tie";
-                break;
-            }
-
-            xVerticalCount=0; xHorizontalCount=0;
-            oVerticalCount=0;oHorizontalCount=0;
-
         }
+//        if(
+//                (grid[0][0]=='x'&&grid[1][0]=='x'&&grid[2][0]=='x')||
+//                (grid[0][1]=='x'&&grid[1][1]=='x'&&grid[2][1]=='x')||
+//                (grid[0][2]=='x'&&grid[1][2]=='x'&&grid[2][2]=='x')
+//        )
+//            xHorizontalWin=true;
+
+//        if(
+//                (grid[0][0]=='x'&&grid[0][1]=='x'&&grid[0][2]=='x')||
+//                (grid[1][0]=='x'&&grid[1][1]=='x'&&grid[1][2]=='x')||
+//                (grid[2][0]=='x'&&grid[2][1]=='x'&&grid[2][2]=='x')
+//        )
+//            xVerticalWin=true;
+
+
+
+            if(xHorizontalWin||xVerticalWin||xSlantWin) {
+                result="X wins";
+            }
+
+            if(oHorizontalWin||oVerticalWin||oSlantWin) {
+                result="O wins";
+            }
+
+
+
+            if(freeSpots==0&&result.equals("None")) {
+                result="tie";
+            }
+
 
         //pomocnicze do podejrzenia działania pętli w konsoli
         System.out.println("________________");
 
         return result;
     }
+//    public String checkGameWinner(char [][]grid){
+//        String result = "None";
+//
+//        //Student code goes here ...
+//
+//        int xVerticalCount=0, xHorizontalCount=0,
+//                xBackSlashCount=0, xSlashCount=0,
+//                oVerticalCount=0,oHorizontalCount=0,
+//                oBackSlashCount=0, oSlashCount=0;
+//
+//        for(int i=0;i<grid.length;i++) {
+//
+//            for(int j=0;j<grid[0].length;j++) {
+//
+//                if(grid[i][j]=='x') xVerticalCount++;
+//                if(grid[j][i]=='x') xHorizontalCount++;
+//                if(grid[i][j]=='o') oVerticalCount++;
+//                if(grid[j][i]=='o') oHorizontalCount++;
+//
+//                if(grid[i][j]=='x'&&i==j) xBackSlashCount++;
+//                if(grid[i][j]=='o'&&i==j) oBackSlashCount++;
+//
+//                //pomocnicze do podejrzenia działania pętli w konsoli
+//                System.out.println("i="+i+", j="+j+", val[i][j]="+grid[i][j]+", val[j][i]="+grid[j][i]+
+//                        ", xVerticalCount="+xVerticalCount+", xHorizontalCount="+xHorizontalCount+
+//                        ", xBackSlashCount="+xVerticalCount+
+//                        ", oVerticalCount="+oVerticalCount+", oHorizontalCount="+oHorizontalCount+
+//                        ", oBackSlashCount="+oVerticalCount);
+//
+//            }
+//
+//            if(grid[grid.length-1-i][i]=='x') xSlashCount++;
+//            if(grid[grid.length-1-i][i]=='o') oSlashCount++;
+//
+//            if(xVerticalCount==grid.length||xHorizontalCount==grid.length||
+//                    xBackSlashCount==grid.length||xSlashCount==grid.length) {
+//                result="X wins";
+//                break;
+//            }
+//
+//            if(oVerticalCount==grid.length||oHorizontalCount==grid.length||
+//                    oBackSlashCount==grid.length||oSlashCount==grid.length) {
+//                result="O wins";
+//                break;
+//            }
+//
+//            if(freeSpots==0&&result=="None") {
+//                result="Tie";
+//                break;
+//            }
+//
+//            xVerticalCount=0; xHorizontalCount=0;
+//            oVerticalCount=0;oHorizontalCount=0;
+//
+//        }
+//
+//        //pomocnicze do podejrzenia działania pętli w konsoli
+//        System.out.println("________________");
+//
+//        return result;
+//    }
 
     /**
      * Main function
